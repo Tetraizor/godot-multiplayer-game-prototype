@@ -1,8 +1,7 @@
-namespace Tetraizor.Enums
+namespace Tetraizor.Enums;
+
+public enum EntityType
 {
-    public enum EntityType
-    {
-        Character,
-        Static,
-    }
+    Character,
+    Static,
 }

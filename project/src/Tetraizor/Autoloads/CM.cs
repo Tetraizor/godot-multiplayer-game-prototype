@@ -167,6 +167,6 @@ public partial class CM : AutoloadBase<CM>
     public static void Correct(string message)
     {
         Instance._consoleOutput.Text += $"[color=green]{message}[/color]\n";
-        GD.PrintRich($"[color=green]message[/color]");
+        GD.PrintRich($"[color=green]{message}[/color]");
     }
 }

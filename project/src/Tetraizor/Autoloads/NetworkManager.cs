@@ -25,6 +25,16 @@ public partial class NetworkManager : AutoloadBase<NetworkManager>
     private int _retryCounter = 0;
     private bool _isConnecting;
 
+    /// <summary>
+    /// Set true by server when it's ready to accept clients. Relevant for clients only.
+    /// </summary>
+    public bool IsFinishedSettingUp = false;
+
+    /// <summary>
+    /// Set true by GameController when server is ready to accept clients.
+    /// </summary>
+    public bool CanClientJoin = false;
+
     public static bool IsServer => LocalProfile.NetworkId == SERVER_ID;
     public static PlayerProfile LocalProfile => Instance._localProfile;
     private PlayerProfile _localProfile;
@@ -107,6 +117,33 @@ public partial class NetworkManager : AutoloadBase<NetworkManager>
                 }
 
                 return;
+            }
+        }
+
+        while (!CanClientJoin && !cancelConnection)
+        {
+            counter += GetProcessDeltaTime();
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+            if (counter >= CONNECTION_TRY_PERIOD_SECONDS)
+            {
+                _isConnecting = false;
+                cancelConnection = true;
+
+                if (_retryCounter++ >= CONNECTION_TIMEOUT_COUNT)
+                {
+                    CM.Error("Server is not ready yet.");
+                    Disconnect(false);
+
+                    _retryCounter = 0;
+                    return;
+
+                }
+                else
+                {
+                    CM.Error("Server is not ready yet. Retrying...");
+                    RpcId(SERVER_ID, nameof(AskToJoin));
+                }
             }
         }
 
@@ -226,6 +263,24 @@ public partial class NetworkManager : AutoloadBase<NetworkManager>
         };
 
         task.Invoke();
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable, CallLocal = true)]
+    public void AskToJoin()
+    {
+        if (IsServer)
+        {
+            RpcId(Multiplayer.GetRemoteSenderId(), nameof(AcceptJoin), CanClientJoin);
+        }
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable, CallLocal = true)]
+    public void AcceptJoin(bool state)
+    {
+        if (Multiplayer.GetRemoteSenderId() == SERVER_ID)
+        {
+            IsFinishedSettingUp = state;
+        }
     }
 
     #region Common Callbacks

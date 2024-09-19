@@ -64,7 +64,6 @@ public partial class EntityController : Node
             var spawnOrder = (Godot.Collections.Dictionary)(spawnOrderPair)["spawn_order"];
 
             // TODO: Do spawn order validations here.
-
             spawnOrder["entity_id"] = GenerateId();
             spawnOrder["packed_type"] = packedType;
 

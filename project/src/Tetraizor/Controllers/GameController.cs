@@ -1,5 +1,8 @@
 namespace Tetraizor.Controllers;
 
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using Godot;
 using Godot.Collections;
 using Tetraizor.Autoloads;
@@ -9,7 +12,6 @@ using Tetraizor.Managers;
 
 public partial class GameController : Node
 {
-    // public System.Collections.Generic.Dictionary<int, PlayerWrapper> _players = new();
     public System.Collections.Generic.Dictionary<int, PlayerProfile> _players = new();
     public PlayerProfile GetProfile(int id) => _players[id];
 
@@ -17,8 +19,8 @@ public partial class GameController : Node
 
     public override void _Ready()
     {
-        // Means player joined the game, and ready to load the game & play.
-
+        // Means client joined the game, and ready to load the game & play.
+        // If server, it needs to load the world first.
         _entityController = NodeManager.FindNodeOfType<EntityController>();
 
         RpcId(1, "OnPlayerJoined", NetworkManager.LocalProfile.Serialize());
@@ -58,7 +60,25 @@ public partial class GameController : Node
 
         if (newPlayerProfile.NetworkId == NetworkManager.SERVER_ID)
         {
-            // TODO: Retrieve world state from physical save data.
+            // TODO: Temporary "world generation logic", will be replaced with actual world generation. 
+            var username = NetworkManager.LocalProfile.Username;
+            MD5 md5Hasher = MD5.Create();
+
+            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(NetworkManager.LocalProfile.Username));
+            var seed = BitConverter.ToInt32(hashed, 0);
+
+            Godot.RandomNumberGenerator generator = new Godot.RandomNumberGenerator();
+            generator.Seed = (ulong)seed;
+            CM.Print("Generating world with seed: " + generator.Seed);
+
+            int treeCount = generator.RandiRange(15, 25);
+
+            for (int i = 0; i < treeCount; i++)
+            {
+                _entityController.CreateSpawnRequest(typeof(TreeEntity).Name, new Dictionary {
+                    {"position", new Vector2(generator.RandiRange(0, 1000), generator.RandiRange(0, 1000))},
+                });
+            }
         }
         else
         {
@@ -74,9 +94,9 @@ public partial class GameController : Node
 
     private void SendSnapshot(int receiverId)
     {
-        var playerData = new Array();
+        var playerData = new Godot.Collections.Array();
         var worldData = new Dictionary();
-        var entityData = new Array();
+        var entityData = new Godot.Collections.Array();
 
         // Serialize Player Data (Profiles only)
         foreach (var player in _players)
@@ -117,7 +137,7 @@ public partial class GameController : Node
     {
         // Process snapshot.
         // Process player profiles
-        Array playerProfileList = (Array)snapshotDataRaw["player_data"];
+        Godot.Collections.Array playerProfileList = (Godot.Collections.Array)snapshotDataRaw["player_data"];
         foreach (Dictionary player in playerProfileList)
         {
             var playerProfile = PlayerProfile.From(player);
@@ -135,5 +155,8 @@ public partial class GameController : Node
             entity["entity_id"] = (int)entity["entity_id"];
             _entityController.SpawnEntity(entity);
         }
+
+        // Notify network that setup is finished.
+        NetworkManager.Instance.IsFinishedSettingUp = true;
     }
 }

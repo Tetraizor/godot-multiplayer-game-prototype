@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://src/Tetraizor/Scene/WorldSceneManager.cs" id="1_0j28e"]
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/GameController.cs" id="2_1kldk"]
 [ext_resource type="TileSet" uid="uid://gd7lc6ms8i3u" path="res://res/tileset/tileset_prototype.tres" id="2_lggcj"]
+[ext_resource type="PackedScene" uid="uid://bj0axy6ca14bg" path="res://scene/entity/tree_entity.tscn" id="4_66o27"]
 [ext_resource type="PackedScene" uid="uid://mn4pvwm3je3u" path="res://scene/ui/World/main_menu.tscn" id="4_yno3l"]
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/PlayerController.cs" id="5_5rxv4"]
 [ext_resource type="PackedScene" uid="uid://dw7gl0hlox0k4" path="res://scene/entity/player.tscn" id="5_v604h"]
-[ext_resource type="PackedScene" uid="uid://bj0axy6ca14bg" path="res://scene/entity/tree.tscn" id="6_784cl"]
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/EntityController.cs" id="6_t3iv4"]
 
 [node name="World" type="Node"]
@@ -15,7 +15,8 @@ script = ExtResource("1_0j28e")
 [node name="EntityController" type="Node" parent="." node_paths=PackedStringArray("_container")]
 script = ExtResource("6_t3iv4")
 _entityScenes = {
-"PlayerEntity": ExtResource("5_v604h")
+"PlayerEntity": ExtResource("5_v604h"),
+"TreeEntity": ExtResource("4_66o27")
 }
 _container = NodePath("../EntityContainer")
 
@@ -42,42 +43,3 @@ tile_set = ExtResource("2_lggcj")
 
 [node name="EntityContainer" type="Node2D" parent="."]
 y_sort_enabled = true
-
-[node name="Tree" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(643, 549)
-
-[node name="Tree2" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(439, 673)
-
-[node name="Tree3" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(370, 473)
-
-[node name="Tree4" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(647, 755)
-
-[node name="Tree5" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(483, 723)
-
-[node name="Tree6" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(429, 741)
-
-[node name="Tree7" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(412, 443)
-
-[node name="Tree8" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(798, 484)
-
-[node name="Tree9" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(181, 614)
-
-[node name="Tree10" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(883, 661)
-
-[node name="Tree11" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(175, 858)
-
-[node name="Tree12" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(662, 301)
-
-[node name="Tree13" parent="EntityContainer" instance=ExtResource("6_784cl")]
-position = Vector2(847, 883)

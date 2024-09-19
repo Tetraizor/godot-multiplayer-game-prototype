@@ -1,7 +1,6 @@
 namespace Tetraizor.Entity;
 
 using Godot;
-using Godot.Collections;
 using Tetraizor.Data;
 
 public interface IEntity : INetworkSerializable
