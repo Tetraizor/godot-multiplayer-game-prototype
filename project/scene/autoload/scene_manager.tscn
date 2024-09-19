@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6fqhqqp3jhtx"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Autoloads/SceneManager.cs" id="1_kmwsw"]
+[ext_resource type="PackedScene" uid="uid://0sgo4limjmmd" path="res://stage/lobby.tscn" id="2_mroxi"]
+[ext_resource type="PackedScene" uid="uid://cgxcir8glfkii" path="res://stage/world.tscn" id="3_i8sov"]
+
+[node name="SceneManager" type="Node" node_paths=PackedStringArray("_rootNode")]
+script = ExtResource("1_kmwsw")
+_rootNode = NodePath(".")
+_initialSceneId = 1
+_sceneList = {
+1: ExtResource("2_mroxi"),
+2: ExtResource("3_i8sov")
+}

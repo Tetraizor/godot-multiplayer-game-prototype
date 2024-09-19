@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://gxoa378ystof"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Controllers/EntityController.cs" id="1_4q0io"]
+
+[node name="EntityController" type="Node"]
+script = ExtResource("1_4q0io")

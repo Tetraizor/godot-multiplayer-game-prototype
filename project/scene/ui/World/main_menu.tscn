@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=3 uid="uid://mn4pvwm3je3u"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Components/NinePatchScalable.cs" id="1_4f0d4"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Components/Modal/MainMenuModal.cs" id="1_b5lw3"]
+[ext_resource type="Texture2D" uid="uid://ijerytrkkx8t" path="res://art/ui/main_panel_w_header.png" id="2_yy4iq"]
+[ext_resource type="Texture2D" uid="uid://vqjxawynaivb" path="res://art/ui/icon/x.png" id="4_4hpkp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sdq"]
+bg_color = Color(0, 0, 0, 0.470588)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ixx3e"]
+font_size = 48
+font_color = Color(0.136719, 0.136719, 0.136719, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_35cw4"]
+font_size = 48
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("_disconnectButton", "_playerInfoLabel", "_closeButton", "_background", "_panel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_b5lw3")
+_disconnectButton = NodePath("Modal/MarginContainer/VBoxContainer/DisconnectButton")
+_playerInfoLabel = NodePath("Modal/MarginContainer/VBoxContainer/PlayerInfoLabel")
+_closeButton = NodePath("Modal/MarginContainer/VBoxContainer/HBoxContainer/CloseButton")
+_background = NodePath("Background")
+_panel = NodePath("Modal")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i6sdq")
+
+[node name="Modal" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -258.0
+offset_top = -336.0
+offset_right = 250.0
+offset_bottom = 336.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4f0d4")
+Texture = ExtResource("2_yy4iq")
+MiddleRect = Rect2(32, 32, 16, 16)
+DrawScale = 4.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+label_settings = SubResource("LabelSettings_ixx3e")
+
+[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+icon = ExtResource("4_4hpkp")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Control2" type="Control" parent="Modal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="PlayerInfoLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Connected as {{playerName}}"
+label_settings = SubResource("LabelSettings_35cw4")
+
+[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DisconnectButton" type="Button" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Disconnect"

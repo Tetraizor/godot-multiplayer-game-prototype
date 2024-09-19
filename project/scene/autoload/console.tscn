@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0333wbqnfvlv"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Autoloads/CM.cs" id="1_6qm0n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvg4w"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jhe1u"]
+content_margin_left = 8.0
+bg_color = Color(0.176471, 0.176471, 0.176471, 0.196078)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsnt1"]
+content_margin_left = 8.0
+bg_color = Color(0.176471, 0.176471, 0.176471, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pk48g"]
+bg_color = Color(0.28125, 0.28125, 0.28125, 1)
+
+[node name="Console" type="CanvasLayer" node_paths=PackedStringArray("_consoleOutput", "_consoleInput", "_sendButton", "_consoleContainer", "_content", "_background")]
+script = ExtResource("1_6qm0n")
+_consoleOutput = NodePath("ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer2/RichTextLabel")
+_consoleInput = NodePath("ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
+_sendButton = NodePath("ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/Button")
+_consoleContainer = NodePath("ConsoleContainer")
+_content = NodePath("ConsoleContainer/Control/MarginContainer")
+_background = NodePath("ConsoleContainer/Control")
+
+[node name="ConsoleContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Control" type="Panel" parent="ConsoleContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -339.0
+offset_right = 626.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nvg4w")
+
+[node name="MarginContainer" type="MarginContainer" parent="ConsoleContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ConsoleContainer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+theme_override_font_sizes/mono_font_size = 32
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+scroll_following = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_jhe1u")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_fsnt1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fsnt1")
+placeholder_text = "Type to chat..."
+
+[node name="Button" type="Button" parent="ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_pk48g")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pk48g")
+text = "Send"

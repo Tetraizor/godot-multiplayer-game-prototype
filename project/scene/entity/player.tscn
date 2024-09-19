@@ -1,0 +1,281 @@
+[gd_scene load_steps=21 format=3 uid="uid://dw7gl0hlox0k4"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Entity/PlayerEntity.cs" id="1_df1b7"]
+[ext_resource type="Texture2D" uid="uid://bmtimskxl788i" path="res://art/atlas/atlas_prototype.png" id="2_uy4af"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ofgl"]
+
+[sub_resource type="Animation" id="Animation_06gyb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RendererRoot/Renderer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RendererRoot/Renderer:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(61, 1, 9, 10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ToolOrigin/Hand:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-10, -7)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ToolOrigin/Hand:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.280518]
+}
+
+[sub_resource type="Animation" id="Animation_ybnkf"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RendererRoot/Renderer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(4, 4.26), Vector2(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_0p06k"]
+resource_name = "tool_hit"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ToolOrigin/Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3, -10), Vector2(13, -20), Vector2(23, -10), Vector2(11.2057, -8.28571), Vector2(3, -10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ToolOrigin/Hand:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.280518, -0.943871, 0.469434, 0.584116, 0.280518]
+}
+
+[sub_resource type="Animation" id="Animation_hpj5r"]
+resource_name = "tool_idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ToolOrigin/Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(3, -10), Vector2(4, -11), Vector2(3, -10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ToolOrigin/Hand:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.280518, 0.198768, 0.280518]
+}
+
+[sub_resource type="Animation" id="Animation_0ijwf"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RendererRoot/Renderer:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(61, 1, 9, 10), Rect2(71, 1, 9, 10), Rect2(61, 1, 9, 10), Rect2(71, 1, 9, 10), Rect2(61, 1, 9, 10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RendererRoot/Renderer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.2, 0.3, 0.4, 0.533333, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(4.3, 3.6), Vector2(4.3, 3.6), Vector2(4, 4), Vector2(4, 4), Vector2(4.3, 3.6), Vector2(4.3, 3.6), Vector2(4, 4), Vector2(4, 4)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_avsaq"]
+_data = {
+"RESET": SubResource("Animation_06gyb"),
+"idle": SubResource("Animation_ybnkf"),
+"tool_hit": SubResource("Animation_0p06k"),
+"tool_idle": SubResource("Animation_hpj5r"),
+"walk": SubResource("Animation_0ijwf")
+}
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_g6ohl"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8eiw4"]
+animation = &"tool_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mlwlr"]
+animation = &"tool_hit"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_33a4x"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vuvnf"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u0enb"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_wmwkm"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_vuvnf")
+blend_point_0/pos = 1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_u0enb")
+blend_point_1/pos = 0.0
+min_space = 0.0
+value_label = "is_walking"
+blend_mode = 1
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ntkow"]
+graph_offset = Vector2(-1328.29, 203.256)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_g6ohl")
+nodes/Add2/position = Vector2(140, 260)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_mlwlr")
+nodes/Animation/position = Vector2(-360, 500)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_8eiw4")
+"nodes/Animation 2/position" = Vector2(-360, 360)
+nodes/HitOneShot/node = SubResource("AnimationNodeOneShot_33a4x")
+nodes/HitOneShot/position = Vector2(-180, 380)
+nodes/output/position = Vector2(360, 280)
+nodes/walk_space/node = SubResource("AnimationNodeBlendSpace1D_wmwkm")
+nodes/walk_space/position = Vector2(-200, 220)
+node_connections = [&"Add2", 0, &"walk_space", &"Add2", 1, &"HitOneShot", &"HitOneShot", 0, &"Animation 2", &"HitOneShot", 1, &"Animation", &"output", 0, &"Add2"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_os77h"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_mjc30"]
+states/BlendTree/node = SubResource("AnimationNodeBlendTree_ntkow")
+states/BlendTree/position = Vector2(394, 100)
+states/End/position = Vector2(573, 100)
+transitions = ["Start", "BlendTree", SubResource("AnimationNodeStateMachineTransition_os77h")]
+graph_offset = Vector2(-798, -14)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0vljl"]
+font_size = 32
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_usernameLabel", "_animationTree", "_rendererRoot", "_toolOrigin", "_toolRenderer")]
+script = ExtResource("1_df1b7")
+_usernameLabel = NodePath("UsernameLabel")
+_animationTree = NodePath("AnimationTree")
+_rendererRoot = NodePath("RendererRoot")
+_toolOrigin = NodePath("ToolOrigin")
+_toolRenderer = NodePath("ToolOrigin/Hand/ToolRenderer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4ofgl")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_avsaq")
+}
+tree_root = SubResource("AnimationNodeStateMachine_mjc30")
+advance_expression_base_node = NodePath("..")
+parameters/BlendTree/Add2/add_amount = 1.0
+parameters/BlendTree/HitOneShot/active = false
+parameters/BlendTree/HitOneShot/internal_active = false
+parameters/BlendTree/HitOneShot/request = 0
+parameters/BlendTree/walk_space/blend_position = 0.0
+
+[node name="UsernameLabel" type="Label" parent="."]
+z_index = 50
+offset_left = -46.0
+offset_top = -61.0
+offset_right = 76.0
+offset_bottom = -33.0
+scale = Vector2(0.75, 0.75)
+text = "{{username}}"
+label_settings = SubResource("LabelSettings_0vljl")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ToolOrigin" type="Node2D" parent="."]
+position = Vector2(0, -3)
+
+[node name="Hand" type="Node2D" parent="ToolOrigin"]
+position = Vector2(-10, -7)
+rotation = 0.280518
+metadata/_edit_group_ = true
+
+[node name="ToolRenderer" type="Sprite2D" parent="ToolOrigin/Hand"]
+position = Vector2(26.4983, -5.55322)
+rotation = -0.523599
+scale = Vector2(4, 4.0304)
+texture = ExtResource("2_uy4af")
+region_enabled = true
+region_rect = Rect2(11, 33, 10, 8)
+
+[node name="RendererRoot" type="Node2D" parent="."]
+
+[node name="Renderer" type="Sprite2D" parent="RendererRoot"]
+scale = Vector2(4, 4)
+texture = ExtResource("2_uy4af")
+offset = Vector2(0, -3.68)
+region_enabled = true
+region_rect = Rect2(61, 1, 9, 10)
