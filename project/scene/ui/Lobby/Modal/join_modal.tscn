@@ -1,0 +1,167 @@
+[gd_scene load_steps=6 format=3 uid="uid://l64quvaw6fho"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/JoinModal.cs" id="1_iu24q"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Components/NinePatchScalable.cs" id="2_r4uc7"]
+[ext_resource type="Texture2D" uid="uid://ijerytrkkx8t" path="res://art/ui/main_panel_w_header.png" id="3_x6nl2"]
+[ext_resource type="Texture2D" uid="uid://vqjxawynaivb" path="res://art/ui/icon/x.png" id="4_ntkf5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i3vq3"]
+font_size = 48
+font_color = Color(0.311042, 0.309357, 0.363281, 1)
+
+[node name="JoinModal" type="Control" node_paths=PackedStringArray("_joinButton", "_ipAddressLineEdit", "_portLineEdit", "_usernameLineEdit", "_closeButton", "_panel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_iu24q")
+_joinButton = NodePath("Modal/MarginContainer/VBoxContainer/JoinButton")
+_ipAddressLineEdit = NodePath("Modal/MarginContainer/VBoxContainer/FormContainer/Edits/IPEdit")
+_portLineEdit = NodePath("Modal/MarginContainer/VBoxContainer/FormContainer/Edits/PortEdit")
+_usernameLineEdit = NodePath("Modal/MarginContainer/VBoxContainer/FormContainer/Edits/UsernameEdit")
+_closeButton = NodePath("Modal/MarginContainer/VBoxContainer/Title/CloseButton")
+_panel = NodePath("Modal")
+
+[node name="Modal" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -192.0
+offset_right = 322.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_r4uc7")
+Texture = ExtResource("3_x6nl2")
+MiddleRect = Rect2(8, 32, 16, 16)
+DrawScale = 4.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer"]
+layout_mode = 2
+
+[node name="Control3" type="Control" parent="Modal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Title" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer/Title"]
+layout_mode = 2
+text = "Join Game"
+label_settings = SubResource("LabelSettings_i3vq3")
+
+[node name="Spacer" type="Control" parent="Modal/MarginContainer/VBoxContainer/Title"]
+custom_minimum_size = Vector2(0, 4.74)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/Title"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+icon = ExtResource("4_ntkf5")
+flat = true
+icon_alignment = 2
+expand_icon = true
+
+[node name="Spacer" type="Control" parent="Modal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 23.925)
+layout_mode = 2
+
+[node name="FormContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Labels" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/FormContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="IPLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "IP"
+horizontal_alignment = 2
+
+[node name="Spacer2" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="PortLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Port"
+horizontal_alignment = 2
+
+[node name="Spacer3" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Labels"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Username"
+horizontal_alignment = 2
+
+[node name="Spacer" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer"]
+custom_minimum_size = Vector2(12, 2)
+layout_mode = 2
+
+[node name="Edits" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/FormContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IPEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Edits"]
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Enter IP adress..."
+
+[node name="Spacer" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Edits"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="PortEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Edits"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4538"
+placeholder_text = "Enter port..."
+
+[node name="Spacer2" type="Control" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Edits"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="UsernameEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/FormContainer/Edits"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter username..."
+
+[node name="Spacer2" type="Control" parent="Modal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="JoinButton" type="Button" parent="Modal/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "Join"

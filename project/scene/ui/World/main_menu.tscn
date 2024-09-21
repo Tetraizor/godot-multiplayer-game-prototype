@@ -1,12 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://mn4pvwm3je3u"]
+[gd_scene load_steps=7 format=3 uid="uid://mn4pvwm3je3u"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/UI/Components/NinePatchScalable.cs" id="1_4f0d4"]
-[ext_resource type="Script" path="res://src/Tetraizor/UI/Components/Modal/MainMenuModal.cs" id="1_b5lw3"]
+[ext_resource type="Script" path="res://src/Tetraizor/UI/Modals/MainMenuModal.cs" id="1_ramtm"]
 [ext_resource type="Texture2D" uid="uid://ijerytrkkx8t" path="res://art/ui/main_panel_w_header.png" id="2_yy4iq"]
 [ext_resource type="Texture2D" uid="uid://vqjxawynaivb" path="res://art/ui/icon/x.png" id="4_4hpkp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sdq"]
-bg_color = Color(0, 0, 0, 0.470588)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ixx3e"]
 font_size = 48
@@ -15,7 +12,7 @@ font_color = Color(0.136719, 0.136719, 0.136719, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_35cw4"]
 font_size = 48
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("_disconnectButton", "_playerInfoLabel", "_closeButton", "_background", "_panel")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("_disconnectButton", "_playerInfoLabel", "_closeButton", "_panel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,21 +20,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_b5lw3")
+script = ExtResource("1_ramtm")
 _disconnectButton = NodePath("Modal/MarginContainer/VBoxContainer/DisconnectButton")
-_playerInfoLabel = NodePath("Modal/MarginContainer/VBoxContainer/PlayerInfoLabel")
+_playerInfoLabel = NodePath("Modal/MarginContainer/VBoxContainer/HBoxContainer/Label")
 _closeButton = NodePath("Modal/MarginContainer/VBoxContainer/HBoxContainer/CloseButton")
-_background = NodePath("Background")
 _panel = NodePath("Modal")
-
-[node name="Background" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_i6sdq")
 
 [node name="Modal" type="Control" parent="."]
 layout_mode = 1

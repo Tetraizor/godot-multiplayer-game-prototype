@@ -1,9 +1,7 @@
 namespace Tetraizor.Autoloads;
 
-using System;
 using Godot;
 using Godot.Collections;
-using Tetraizor.Data;
 using Tetraizor.Data.Networking.Packet;
 using Tetraizor.Enums;
 
@@ -59,6 +57,13 @@ public partial class CM : AutoloadBase<CM>
 
         _sendButton.Pressed += OnSendButtonPressed;
         PacketBus.Instance.PacketReceived += OnPacketReceived;
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+
+        PacketBus.Instance.PacketReceived -= OnPacketReceived;
     }
 
     private void OnPacketReceived(int senderId, PacketType type, Dictionary rawData)
@@ -146,25 +151,25 @@ public partial class CM : AutoloadBase<CM>
         }
     }
 
-    public static void Print(string message)
+    public static void Print(object message)
     {
         Instance._consoleOutput.Text += $"{message}\n";
         GD.Print(message);
     }
 
-    public static void Warning(string message)
+    public static void Warning(object message)
     {
         Instance._consoleOutput.Text += $"[color=yellow]{message}[/color]\n";
-        GD.PrintRich($"[color=yellow]message[/color]");
+        GD.PrintRich($"[color=yellow]{message}[/color]");
     }
 
-    public static void Error(string message)
+    public static void Error(object message)
     {
         Instance._consoleOutput.Text += $"[color=red]{message}[/color]\n";
         GD.PrintErr(message);
     }
 
-    public static void Correct(string message)
+    public static void Correct(object message)
     {
         Instance._consoleOutput.Text += $"[color=green]{message}[/color]\n";
         GD.PrintRich($"[color=green]{message}[/color]");

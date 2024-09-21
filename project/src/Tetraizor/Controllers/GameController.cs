@@ -30,6 +30,14 @@ public partial class GameController : Node
         NetworkManager.Instance.PeerDisconnected += OnPeerDisconnected;
     }
 
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+
+        NetworkManager.Instance.PeerConnected -= OnPeerConnected;
+        NetworkManager.Instance.PeerDisconnected -= OnPeerDisconnected;
+    }
+
     private void OnPeerDisconnected(long id)
     {
         if (NetworkManager.IsServer)

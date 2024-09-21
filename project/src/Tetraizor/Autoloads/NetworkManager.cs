@@ -141,7 +141,7 @@ public partial class NetworkManager : AutoloadBase<NetworkManager>
                 }
                 else
                 {
-                    CM.Error("Server is not ready yet. Retrying...");
+                    CM.Warning("Server is not ready yet. Retrying...");
                     RpcId(SERVER_ID, nameof(AskToJoin));
                 }
             }

@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgx2jd117tfrx"]
+
+[ext_resource type="Texture2D" uid="uid://3tcek6ketqe1" path="res://art/ui/slot.png" id="1_uwu85"]
+[ext_resource type="Script" path="res://src/Tetraizor/Systems/InventoryManagement/Data/InventorySlot.cs" id="2_twdlw"]
+[ext_resource type="Texture2D" uid="uid://2ppo3mw3lski" path="res://art/items/item_00.png" id="3_jtwks"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcdrn"]
+line_spacing = 0.0
+font_size = 32
+
+[node name="InventorySlot" type="TextureRect" node_paths=PackedStringArray("_countLabel", "_itemDisplay")]
+custom_minimum_size = Vector2(64, 64)
+mouse_default_cursor_shape = 2
+texture = ExtResource("1_uwu85")
+expand_mode = 1
+script = ExtResource("2_twdlw")
+_countLabel = NodePath("CountLabel")
+_itemDisplay = NodePath("ItemRenderer")
+
+[node name="ItemRenderer" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_jtwks")
+
+[node name="CountLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -56.0
+offset_right = -6.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "-1"
+label_settings = SubResource("LabelSettings_hcdrn")
+horizontal_alignment = 2
+vertical_alignment = 2

@@ -14,7 +14,7 @@ public partial class PacketBus : AutoloadBase<PacketBus>
     private List<PacketBase> _packetList = new List<PacketBase>();
 
     public delegate void PacketReceivedEventHandler(int senderId, PacketType type, Dictionary rawData);
-    public event PacketReceivedEventHandler PacketReceived;
+    public PacketReceivedEventHandler PacketReceived;
 
     private float _timer;
     public override void _Process(double dDelta)
@@ -61,7 +61,6 @@ public partial class PacketBus : AutoloadBase<PacketBus>
     public void ReceivePacket(PacketType type, Dictionary packetData)
     {
         int senderId = Multiplayer.GetRemoteSenderId();
-
         PacketReceived?.Invoke(senderId, type, packetData);
     }
 

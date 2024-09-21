@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1qxomkmexw0u"]
+
+[ext_resource type="Script" path="res://src/Tetraizor/Autoloads/ModalManager.cs" id="1_jxfo3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dgurh"]
+bg_color = Color(0, 0, 0, 0.470588)
+
+[node name="ModalManager" type="CanvasLayer" node_paths=PackedStringArray("_background")]
+layer = 40
+script = ExtResource("1_jxfo3")
+_background = NodePath("Background")
+
+[node name="Background" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dgurh")

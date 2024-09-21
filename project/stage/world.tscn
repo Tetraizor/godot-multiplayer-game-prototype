@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cgxcir8glfkii"]
+[gd_scene load_steps=12 format=4 uid="uid://cgxcir8glfkii"]
 
 [ext_resource type="Script" path="res://src/Tetraizor/Scene/WorldSceneManager.cs" id="1_0j28e"]
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/GameController.cs" id="2_1kldk"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/PlayerController.cs" id="5_5rxv4"]
 [ext_resource type="PackedScene" uid="uid://dw7gl0hlox0k4" path="res://scene/entity/player.tscn" id="5_v604h"]
 [ext_resource type="Script" path="res://src/Tetraizor/Controllers/EntityController.cs" id="6_t3iv4"]
+[ext_resource type="Script" path="res://src/Tetraizor/Controllers/InventoryController.cs" id="7_1lk4f"]
+[ext_resource type="PackedScene" uid="uid://dfomohi5pnevd" path="res://scene/ui/Lobby/Modal/player_inventory.tscn" id="10_tjfoe"]
+[ext_resource type="PackedScene" uid="uid://bgx2jd117tfrx" path="res://scene/ui/Lobby/component/inventory_slot.tscn" id="11_muw4s"]
 
 [node name="World" type="Node"]
 script = ExtResource("1_0j28e")
@@ -27,11 +30,6 @@ script = ExtResource("2_1kldk")
 script = ExtResource("5_5rxv4")
 _camera = NodePath("../Camera2D")
 
-[node name="UICanvas" type="CanvasLayer" parent="."]
-
-[node name="MainMenu" parent="UICanvas" instance=ExtResource("4_yno3l")]
-visible = false
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(531, 499)
 zoom = Vector2(1.5, 1.5)
@@ -43,3 +41,29 @@ tile_set = ExtResource("2_lggcj")
 
 [node name="EntityContainer" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+layer = 91
+
+[node name="MainMenu" parent="UICanvas" instance=ExtResource("4_yno3l")]
+
+[node name="PlayerInventory" parent="UICanvas" instance=ExtResource("10_tjfoe")]
+
+[node name="InventoryController" type="Control" parent="UICanvas" node_paths=PackedStringArray("_bufferInventorySlot")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_1lk4f")
+_bufferInventorySlot = NodePath("BufferSlot")
+
+[node name="BufferSlot" parent="UICanvas/InventoryController" instance=ExtResource("11_muw4s")]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+texture = null

@@ -93,9 +93,9 @@ public partial class PlayerController : Node
         }
     }
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        base._Input(@event);
+        base._UnhandledInput(@event);
 
         if (_targetCharacter == null) return;
         if (!ScreenManager.IsFocused) return;

@@ -102,8 +102,8 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(0, -3)
 
 [node name="Hand" type="Node2D" parent="ToolOrigin"]
-position = Vector2(3.63144, -10.6314)
-rotation = 0.228897
+position = Vector2(3.99972, -10.9997)
+rotation = 0.198791
 metadata/_edit_group_ = true
 
 [node name="ToolRenderer" type="Sprite2D" parent="ToolOrigin/Hand"]
@@ -117,7 +117,7 @@ region_rect = Rect2(11, 33, 10, 8)
 [node name="RendererRoot" type="Node2D" parent="."]
 
 [node name="Renderer" type="Sprite2D" parent="RendererRoot"]
-scale = Vector2(4, 4.01866)
+scale = Vector2(4, 4.25748)
 texture = ExtResource("2_uy4af")
 offset = Vector2(0, -3.68)
 region_enabled = true

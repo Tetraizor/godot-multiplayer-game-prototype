@@ -17,6 +17,7 @@ bg_color = Color(0.176471, 0.176471, 0.176471, 0.588235)
 bg_color = Color(0.28125, 0.28125, 0.28125, 1)
 
 [node name="Console" type="CanvasLayer" node_paths=PackedStringArray("_consoleOutput", "_consoleInput", "_sendButton", "_consoleContainer", "_content", "_background")]
+layer = 60
 script = ExtResource("1_6qm0n")
 _consoleOutput = NodePath("ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer2/RichTextLabel")
 _consoleInput = NodePath("ConsoleContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")

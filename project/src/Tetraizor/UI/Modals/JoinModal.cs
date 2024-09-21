@@ -1,42 +1,29 @@
-namespace Tetraizor.UI.Components.Modal;
+namespace Tetraizor.UI.Modals;
 
 using Godot;
 using Tetraizor.Autoloads;
-using Tetraizor.Data.Networking;
 using Tetraizor.UI.Managers;
 using Tetraizor.Utils.Network;
 using Tetrazior.Data.Networking;
 
-
-public partial class HostModal : ModalBase
+public partial class JoinModal : ModalBase
 {
-    [ExportGroup("Host Control References")]
-    [Export] private Button _hostButton;
+    [ExportGroup("Join Control References")]
+    [Export] private Button _joinButton;
 
     [Export] private LineEdit _ipAddressLineEdit;
     [Export] private LineEdit _portLineEdit;
     [Export] private LineEdit _usernameLineEdit;
 
-    private LobbyUIManager _lobbyUIManager;
-
     public override void _Ready()
     {
         base._Ready();
-
-        _lobbyUIManager = NodeManager.FindNodeOfType<LobbyUIManager>();
 
         _ipAddressLineEdit.TextChanged += (string text) => CheckForm();
         _portLineEdit.TextChanged += (string text) => CheckForm();
         _usernameLineEdit.TextChanged += (string text) => CheckForm();
 
-        _hostButton.Pressed += OnHostButtonPressed;
-    }
-
-    protected override void OnCloseButtonPressed()
-    {
-        base.OnCloseButtonPressed();
-
-        _lobbyUIManager.ToggleMainMenuPanel(true);
+        _joinButton.Pressed += OnJoinButtonPressed;
     }
 
     private void CheckForm()
@@ -49,10 +36,10 @@ public partial class HostModal : ModalBase
         bool portCheck = NetworkUtils.IsValidPort(port);
         bool usernameCheck = !string.IsNullOrEmpty(username);
 
-        _hostButton.Disabled = !(ipCheck && portCheck && usernameCheck);
+        _joinButton.Disabled = !(ipCheck && portCheck && usernameCheck);
     }
 
-    private void OnHostButtonPressed()
+    private void OnJoinButtonPressed()
     {
         var ipAddress = _ipAddressLineEdit.Text;
         var port = _portLineEdit.Text;
@@ -65,16 +52,14 @@ public partial class HostModal : ModalBase
             ipAddress = hostEntry.AddressList[0].ToString();
         }
 
-        NetworkManager.Instance.Host(
-            new ServerProperties
-            {
-                Ip = ipAddress,
-                Port = int.Parse(port)
-            },
+        NetworkManager.Instance.Join(
             new UserData
             {
                 Username = username
-            }
+            },
+            ipAddress, int.Parse(port)
         );
+
+        ModalManager.ToggleModal(this, false);
     }
 }

@@ -1,7 +1,7 @@
+namespace Tetraizor.UI.Modals;
+
 using Godot;
 using Tetraizor.Autoloads;
-
-namespace Tetraizor.UI.Components.Modal;
 
 public partial class MainMenuModal : ModalBase
 {
@@ -12,6 +12,7 @@ public partial class MainMenuModal : ModalBase
     {
         base._Ready();
 
+        ModalLayer = 1;
         Visible = true;
 
         _disconnectButton.Pressed += OnDisconnectButtonPressed;
@@ -24,15 +25,14 @@ public partial class MainMenuModal : ModalBase
     }
 
     // TODO: Temp solution for input.
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        base._Input(@event);
-
-        if (@event is InputEventKey keyEvent)
+        if (Input.IsActionJustPressed("ui_close_menu"))
         {
-            if (keyEvent.Pressed && keyEvent.Keycode == Key.Escape)
+            if (!IsOn)
             {
-                Toggle();
+                GetTree().Root.SetInputAsHandled();
+                ModalManager.ToggleModal(this, true);
             }
         }
     }

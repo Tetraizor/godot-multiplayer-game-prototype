@@ -1,28 +1,41 @@
-namespace Tetraizor.UI.Components.Modal;
+namespace Tetraizor.UI.Modals;
 
 using Godot;
+using Tetraizor.Autoloads;
+using Tetraizor.Extensions;
 
 public abstract partial class ModalBase : Control
 {
     [ExportGroup("Base References")]
     [Export] private Button _closeButton;
-
-    [Export] private Panel _background;
-    [Export] private Control _panel;
+    [Export] protected Control _panel;
 
     private bool _isOn = false;
     public bool IsOn => _isOn;
 
+    public int ModalLayer { protected set; get; } = 0;
+
     public override void _Ready()
     {
-        _closeButton.Pressed += OnCloseButtonPressed;
+        if (_closeButton != null) _closeButton.Pressed += OnCloseButtonPressed;
+        if (_panel == null) _panel = this;
+        _panel.Visible = true;
 
+        SceneManager.Instance.SceneUnloaded += OnSceneUnloaded;
         Toggle(false, true);
+    }
+
+    private void OnSceneUnloaded(int sceneId, Node sceneRoot)
+    {
+        if (IsOn && this.IsParent(sceneRoot))
+        {
+            ModalManager.RemoveModal(this);
+        }
     }
 
     protected virtual void OnCloseButtonPressed()
     {
-        Toggle(false);
+        ModalManager.ToggleModal(this, false);
     }
 
     public void Toggle()
@@ -37,10 +50,6 @@ public abstract partial class ModalBase : Control
 
         if (state)
         {
-            _background.MouseFilter = MouseFilterEnum.Stop;
-
-            var stylebox = _background.GetThemeStylebox("panel") as StyleBoxFlat;
-
             var tween = GetTree().CreateTween();
             tween.SetEase(Tween.EaseType.InOut);
             tween.SetParallel(true);
@@ -56,22 +65,12 @@ public abstract partial class ModalBase : Control
                 "anchor_bottom",
                 0.5f,
                 .2f
-            );
-            tween.TweenMethod(
-                Callable.From((float progress) =>
-                {
-                    stylebox.BgColor = new Color(0, 0, 0, .5f * progress);
-                }), 0f, 1f, .1f
             );
 
             tween.Play();
         }
         else
         {
-            _background.MouseFilter = MouseFilterEnum.Ignore;
-
-            var stylebox = _background.GetThemeStylebox("panel") as StyleBoxFlat;
-
             var tween = GetTree().CreateTween();
             tween.SetEase(Tween.EaseType.InOut);
             tween.SetParallel(true);
@@ -87,12 +86,6 @@ public abstract partial class ModalBase : Control
                 "anchor_bottom",
                 -0.5f,
                 .2f
-            );
-            tween.TweenMethod(
-                Callable.From((float progress) =>
-                {
-                    stylebox.BgColor = new Color(0, 0, 0, .5f * (1 - progress));
-                }), 0f, 1f, .1f
             );
 
             tween.Play();

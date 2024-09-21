@@ -3,9 +3,7 @@ namespace Tetraizor.UI.Managers;
 using System;
 using Godot;
 using Tetraizor.Autoloads;
-using Tetraizor.UI.Components;
-using Tetraizor.UI.Components.Modal;
-
+using Tetraizor.UI.Modals;
 
 public partial class LobbyUIManager : Control
 {
@@ -29,6 +27,21 @@ public partial class LobbyUIManager : Control
         _helpButton.Pressed += OnHelpButtonPressed;
 
         _quitButton.Pressed += () => GetTree().Quit();
+
+        ModalManager.Instance.Connect(nameof(ModalManager.Instance.ModalStateChanged), Callable.From<ModalBase, bool>(OnModalStateChanged));
+    }
+
+    private void OnModalStateChanged(ModalBase modal, bool state)
+    {
+        if (modal == null)
+        {
+            return;
+        }
+
+        if (modal is JoinModal || modal is HostModal)
+        {
+            ToggleMainMenuPanel(!state);
+        }
     }
 
     public void ToggleMainMenuPanel(bool state)
@@ -70,14 +83,12 @@ public partial class LobbyUIManager : Control
     #region Callbacks
     public void OnJoinButtonPressed()
     {
-        ToggleMainMenuPanel(false);
-        NodeManager.FindNodeOfType<JoinModal>().Toggle();
+        ModalManager.ToggleModal<JoinModal>();
     }
 
     private void OnHostButtonPressed()
     {
-        ToggleMainMenuPanel(false);
-        NodeManager.FindNodeOfType<HostModal>().Toggle();
+        ModalManager.ToggleModal<HostModal>();
     }
 
     private void OnHelpButtonPressed()

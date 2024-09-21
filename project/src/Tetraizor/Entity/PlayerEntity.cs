@@ -64,6 +64,13 @@ public partial class PlayerEntity : CharacterEntityBase
         };
     }
 
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+
+        PacketBus.Instance.PacketReceived -= OnPacketReceived;
+    }
+
     public override void _Process(double dDelta)
     {
         base._Process(dDelta);
