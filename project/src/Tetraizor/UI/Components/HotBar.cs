@@ -1,6 +1,9 @@
 namespace Tetraizor.UI.Components;
 
+using System;
 using Godot;
+using Tetraizor.Autoloads;
+using Tetraizor.Controllers;
 using Tetraizor.Systems.InventoryManagement;
 using Tetraizor.Systems.InventoryManagement.Data;
 
@@ -12,18 +15,32 @@ public partial class HotBar : Control
     [Export] private Texture2D _selectedSlotGraphic;
 
     private Inventory _hotBarInventory;
+    private PlayerController _playerController;
+    private InventorySlot _selectedSlot;
 
     private int _selectedSlotId = 0;
+    public delegate void SelectedSlotChangedEventHandler(InventorySlot slot);
+    public event SelectedSlotChangedEventHandler SelectedSlotChanged;
 
     public override void _Ready()
     {
         base._Ready();
         _hotBarInventory = new Inventory(_hotBarSlots);
+        _hotBarInventory.SlotInteracted += InventorySlotInteracted;
+        _playerController = NodeManager.FindNodeOfType<PlayerController>();
 
-        UpdateUI();
+        SelectUI();
     }
 
-    private void UpdateUI()
+    private void InventorySlotInteracted(InventorySlot slot, bool isMainInteraction)
+    {
+        if (slot == _selectedSlot)
+        {
+            SelectUI();
+        }
+    }
+
+    private void SelectUI()
     {
         foreach (var slot in _hotBarSlots)
         {
@@ -31,6 +48,8 @@ public partial class HotBar : Control
         }
 
         _hotBarSlots[_selectedSlotId].Texture = _selectedSlotGraphic;
+        _selectedSlot = _hotBarSlots[_selectedSlotId];
+        SelectedSlotChanged?.Invoke(_selectedSlot);
     }
 
     public void NextSlot()
@@ -38,7 +57,7 @@ public partial class HotBar : Control
         _selectedSlotId++;
         if (_selectedSlotId > 8) _selectedSlotId = 0;
 
-        UpdateUI();
+        SelectUI();
     }
 
     public void PreviousSlot()
@@ -46,7 +65,7 @@ public partial class HotBar : Control
         _selectedSlotId--;
         if (_selectedSlotId < 0) _selectedSlotId = 8;
 
-        UpdateUI();
+        SelectUI();
     }
 
     public void SelectSlot(int slot)
@@ -54,7 +73,7 @@ public partial class HotBar : Control
         if (slot >= 0 && slot <= 8)
         {
             _selectedSlotId = slot;
-            UpdateUI();
+            SelectUI();
         }
     }
 

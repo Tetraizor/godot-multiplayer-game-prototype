@@ -17,9 +17,10 @@ public partial class PlayerInventoryModal : MoveableModalBase
 
         _inventory = new Inventory(_inventorySlots);
 
-        _inventory.InsertItem(ItemRegistry.GetItem(1), 15, 4);
-        _inventory.InsertItem(ItemRegistry.GetItem(1), 15, 4);
-        _inventory.InsertItem(ItemRegistry.GetItem(2), 20, 18);
+        _inventory.InsertItem(new ToolInstance(1), 1, 4);
+        _inventory.InsertItem(new ToolInstance(2), 1, 6);
+        _inventory.InsertItem(new ItemInstance(3), 32, 15);
+        _inventory.InsertItem(new ItemInstance(4), 64, 18);
     }
 
     public override void _UnhandledInput(InputEvent @event)

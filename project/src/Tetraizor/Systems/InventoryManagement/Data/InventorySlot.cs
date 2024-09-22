@@ -9,7 +9,7 @@ public partial class InventorySlot : TextureRect
 
     private Inventory _connectedInventory;
 
-    public Item Item { get; private set; }
+    public ItemInstance ItemInstance { get; private set; }
     public int Amount { get; private set; }
 
     private bool _isHovering;
@@ -22,10 +22,10 @@ public partial class InventorySlot : TextureRect
         MouseExited += OnHoverEnd;
     }
 
-    public void Setup(Inventory inventory, Item item = null, int amount = 0)
+    public void Setup(Inventory inventory, ItemInstance itemInstance = null, int amount = 0)
     {
         _connectedInventory = inventory;
-        Item = item;
+        ItemInstance = itemInstance;
         Amount = amount;
     }
 
@@ -47,25 +47,25 @@ public partial class InventorySlot : TextureRect
         SelfModulate = new Color(1, 1, 1, 1);
     }
 
-    public void SetItem(Item item, int amount = 1)
+    public void SetItem(ItemInstance itemInstance, int amount = 1)
     {
-        if (item == null)
+        if (itemInstance == null)
         {
             ClearItem();
             return;
         }
 
         Amount = amount;
-        Item = item;
+        ItemInstance = itemInstance;
 
-        _itemDisplay.Texture = item.Sprite;
+        _itemDisplay.Texture = itemInstance.Texture;
         _countLabel.Text = Amount > 1 ? Amount.ToString() : "";
     }
 
     public void ClearItem()
     {
         Amount = 0;
-        Item = null;
+        ItemInstance = null;
 
         _itemDisplay.Texture = null;
         _countLabel.Text = "";
@@ -73,7 +73,7 @@ public partial class InventorySlot : TextureRect
 
     public void AddItem(int amount)
     {
-        if (amount < 0 || Item == null || (Amount + amount) > Item.StackSize) return;
+        if (amount < 0 || ItemInstance == null || (Amount + amount) > ItemInstance.StackSize) return;
 
         Amount += amount;
 
@@ -82,7 +82,7 @@ public partial class InventorySlot : TextureRect
 
     public void RemoveItem(int amount)
     {
-        if (amount < 0 || Amount < amount || Item == null) return;
+        if (amount < 0 || Amount < amount || ItemInstance == null) return;
         Amount -= amount;
 
         _countLabel.Text = Amount > 1 ? Amount.ToString() : "";
@@ -112,6 +112,6 @@ public partial class InventorySlot : TextureRect
 
     public override string ToString()
     {
-        return $"{(Item != null ? Item.Name : "Empty")} ({Amount})";
+        return $"{(ItemInstance != null ? ItemInstance.Name : "Empty")} ({Amount})";
     }
 }

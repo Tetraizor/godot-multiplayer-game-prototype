@@ -7,7 +7,7 @@ using Tetraizor.Systems.InventoryManagement.Data;
 
 public class Inventory
 {
-    public delegate void SlotInteractedEventHandler(InventorySlot slot);
+    public delegate void SlotInteractedEventHandler(InventorySlot slot, bool isMainInteraction);
     public event SlotInteractedEventHandler SlotInteracted;
 
     private InventorySlot[] _slots = null;
@@ -42,7 +42,7 @@ public class Inventory
             }
             else
             {
-                if (_slots[i].Item.ItemId == item.ItemId && _slots[i].Amount + count <= item.StackSize)
+                if (_slots[i].ItemInstance.ItemId == item.ItemId && _slots[i].Amount + count <= item.StackSize)
                 {
                     return i;
                 }
@@ -52,17 +52,17 @@ public class Inventory
         return -1;
     }
 
-    public bool InsertItem(Item item, int amount = 1, int slotId = -1)
+    public bool InsertItem(ItemInstance itemInstance, int amount = 1, int slotId = -1)
     {
-        if (item == null) return false;
+        if (itemInstance == null) return false;
 
-        if (_slots[slotId].Item == null)
+        if (_slots[slotId].ItemInstance == null)
         {
-            _slots[slotId].SetItem(item, amount);
+            _slots[slotId].SetItem(itemInstance, amount);
             return true;
         }
 
-        if (item.ItemId == _slots[slotId].Item.ItemId && amount + _slots[slotId].Amount <= _slots[slotId].Item.StackSize)
+        if (itemInstance.ItemId == _slots[slotId].ItemInstance.ItemId && amount + _slots[slotId].Amount <= _slots[slotId].ItemInstance.StackSize)
         {
             _slots[slotId].AddItem(amount);
             return true;
@@ -79,5 +79,6 @@ public class Inventory
     public void OnSlotInteracted(InventorySlot slot, bool isMainInteraction)
     {
         NodeManager.FindNodeOfType<InventoryController>().OnSlotInteracted(slot, isMainInteraction);
+        SlotInteracted?.Invoke(slot, isMainInteraction);
     }
 }

@@ -1,5 +1,6 @@
 namespace Tetraizor.Controllers;
 
+using System;
 using Godot;
 using Godot.Collections;
 using Tetraizor.Autoloads;
@@ -7,6 +8,8 @@ using Tetraizor.Data.Networking.Packet;
 using Tetraizor.Entity;
 using Tetraizor.Enums;
 using Tetraizor.Managers;
+using Tetraizor.Systems.InventoryManagement.Data;
+using Tetraizor.UI.Components;
 using Tetraizor.Utils;
 
 public partial class PlayerController : Node
@@ -17,6 +20,9 @@ public partial class PlayerController : Node
 
     private ReactiveProperty<Vector2> _reactivePosition = new();
     private ReactiveProperty<Vector2> _reactiveLookDirection = new();
+
+    private ToolInstance _activeTool;
+    private HotBar _hotBar;
 
     private bool _isTryingToUseTool = false;
     private float _toolCooldown = .4f;
@@ -40,6 +46,26 @@ public partial class PlayerController : Node
             });
             if (error != Error.Ok) CM.Error($"Error: {error}");
         };
+
+        _hotBar = NodeManager.FindNodeOfType<HotBar>();
+        _hotBar.SelectedSlotChanged += OnSelectedSlotChanged;
+    }
+
+    private void OnSelectedSlotChanged(InventorySlot slot)
+    {
+        if (_targetCharacter == null) return;
+        if (slot == null || slot.ItemInstance == null) _activeTool = null;
+
+        var toolInstance = slot.ItemInstance is ToolInstance ? ((ToolInstance)slot.ItemInstance).Serialize() : null;
+
+        ChangeToolRequest(toolInstance);
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+
+        _hotBar.SelectedSlotChanged -= OnSelectedSlotChanged;
     }
 
     public override void _Process(double dDelta)
@@ -91,6 +117,19 @@ public partial class PlayerController : Node
         {
             CM.Error($"PlayerController.SendInput: Unauthorized sender. Sender ID: {senderId}");
         }
+    }
+
+    public void ChangeToolRequest(Dictionary toolInstanceRaw)
+    {
+        // TODO: Check if tool change is possible.
+        Rpc(nameof(ChangeTool), toolInstanceRaw, _targetCharacter.EntityId);
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable, CallLocal = true)]
+    public void ChangeTool(Dictionary toolInstanceRaw, int entityId)
+    {
+        if (_targetCharacter.EntityId != entityId) return;
+        _entityController.GetEntityById(entityId).GetNodeSelf().Rpc(nameof(PlayerEntity.SetActiveTool), toolInstanceRaw);
     }
 
     public override void _UnhandledInput(InputEvent @event)

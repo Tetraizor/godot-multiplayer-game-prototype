@@ -8,6 +8,7 @@ using Tetraizor.Controllers;
 using Tetraizor.Data.Networking;
 using Tetraizor.Enums;
 using Tetraizor.Managers;
+using Tetraizor.Systems.InventoryManagement.Data;
 using Tetraizor.Utils;
 
 public partial class PlayerEntity : CharacterEntityBase
@@ -28,6 +29,8 @@ public partial class PlayerEntity : CharacterEntityBase
 
     #region State
     private bool _isUsingTool = false;
+
+    private ToolInstance _activeTool;
 
     private ReactiveProperty<Vector2> _reactivePosition = new();
     private Vector2 _lookDirection;
@@ -85,10 +88,10 @@ public partial class PlayerEntity : CharacterEntityBase
     {
         base._Draw();
 
-        if (_lookDirection != Vector2.Zero)
+        if (_lookDirection != Vector2.Zero && _activeTool != null)
         {
             float angle = _lookDirection.Angle();
-            DrawArc(Vector2.Zero, 32, angle - Mathf.Pi / 2, angle + Mathf.Pi / 2, 12, new Color(1, 0, 0), 2);
+            DrawArc(Vector2.Zero, _activeTool.Range, angle - (Mathf.DegToRad(_activeTool.EffectiveAngle) / 2), angle + (Mathf.DegToRad(_activeTool.EffectiveAngle) / 2), Mathf.Max((int)(_activeTool.EffectiveAngle / 10f), 5), new Color(1, 0, 0), 2);
         }
     }
     #endregion
@@ -104,6 +107,31 @@ public partial class PlayerEntity : CharacterEntityBase
 
         _toolOrigin.Scale = new Vector2(direction.X < 0 ? -1 : 1, 1);
         _rendererRoot.Scale = new Vector2(direction.X < 0 ? -1 : 1, 1);
+
+        QueueRedraw();
+    }
+
+    [Rpc(mode: MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable, CallLocal = true)]
+    public void SetActiveTool(Dictionary toolInstanceRaw)
+    {
+        ToolInstance toolInstance = null;
+        if (toolInstanceRaw.ContainsKey("item_id"))
+        {
+            toolInstance = new ToolInstance((int)toolInstanceRaw["item_id"]);
+            toolInstance.Serialize();
+        }
+
+        if (_activeTool == toolInstance) return;
+        _activeTool = toolInstance;
+
+        if (_activeTool != null)
+        {
+            _toolRenderer.Texture = _activeTool.Texture;
+        }
+        else
+        {
+            _toolRenderer.Texture = null;
+        }
 
         QueueRedraw();
     }

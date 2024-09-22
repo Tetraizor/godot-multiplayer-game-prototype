@@ -41,45 +41,45 @@ public partial class InventoryController : Control
     {
         if (isMainInteraction)
         {
-            if (slot.Item != null && _bufferInventorySlot.Item != null && slot.Item.ItemId == _bufferInventorySlot.Item.ItemId)
+            if (slot.ItemInstance != null && _bufferInventorySlot.ItemInstance != null && slot.ItemInstance.ItemId == _bufferInventorySlot.ItemInstance.ItemId)
             {
-                int leftover = (slot.Amount + _bufferInventorySlot.Amount) - slot.Item.StackSize;
+                int leftover = (slot.Amount + _bufferInventorySlot.Amount) - slot.ItemInstance.StackSize;
                 if (leftover > 0)
                 {
-                    slot.SetItem(slot.Item, slot.Item.StackSize);
-                    _bufferInventorySlot.SetItem(slot.Item, leftover);
+                    slot.SetItem(slot.ItemInstance, slot.ItemInstance.StackSize);
+                    _bufferInventorySlot.SetItem(slot.ItemInstance, leftover);
                 }
                 else
                 {
-                    slot.SetItem(slot.Item, slot.Amount + _bufferInventorySlot.Amount);
+                    slot.SetItem(slot.ItemInstance, slot.Amount + _bufferInventorySlot.Amount);
                     _bufferInventorySlot.SetItem(null);
                 }
             }
             else
             {
-                var previousItem = _bufferInventorySlot.Item;
+                var previousItem = _bufferInventorySlot.ItemInstance;
                 var previousAmount = _bufferInventorySlot.Amount;
 
-                _bufferInventorySlot.SetItem(slot.Item, slot.Amount);
+                _bufferInventorySlot.SetItem(slot.ItemInstance, slot.Amount);
                 slot.SetItem(previousItem, previousAmount);
             }
         }
         else
         {
-            if (_bufferInventorySlot.Item == null)
+            if (_bufferInventorySlot.ItemInstance == null)
             {
                 var takeAmount = (int)Mathf.Ceil(slot.Amount / 2.0f);
-                _bufferInventorySlot.SetItem(slot.Item, takeAmount);
+                _bufferInventorySlot.SetItem(slot.ItemInstance, takeAmount);
                 slot.RemoveItem(takeAmount);
             }
             else
             {
-                if (slot.Item == null && _bufferInventorySlot.Item != null)
+                if (slot.ItemInstance == null && _bufferInventorySlot.ItemInstance != null)
                 {
-                    slot.SetItem(_bufferInventorySlot.Item, 1);
+                    slot.SetItem(_bufferInventorySlot.ItemInstance, 1);
                     _bufferInventorySlot.RemoveItem(1);
                 }
-                else if (_bufferInventorySlot.Item.ItemId == slot.Item.ItemId)
+                else if (_bufferInventorySlot.ItemInstance.ItemId == slot.ItemInstance.ItemId)
                 {
                     _bufferInventorySlot.RemoveItem(1);
                     slot.AddItem(1);
